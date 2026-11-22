@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClubHub - College Societies &amp; Cells Portal</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- Website Header -->
+  <header>
+    <h1>🎓 ClubHub - Campus Societies &amp; Cells</h1>
+    <p>Managing C&amp;C, Srijan, Tarannum, Ananya, IIC, and UCC &amp; DA in one place</p>
+  </header>
+
+  <!-- Navigation Menu -->
+  <nav>
+    <button id="btn-home" class="active" onclick="showPage('home')">🏠 Home</button>
+    <button id="btn-clubs" onclick="showPage('clubs')">🏛️ Societies &amp; Cells</button>
+    <button id="btn-events" onclick="showPage('events')">📅 Events &amp; Auditions</button>
+    <button id="btn-notices" onclick="showPage('notices')">📢 Notice Board</button>
+    <button id="btn-members" onclick="showPage('members')">👥 Members</button>
+    <button id="btn-register" onclick="showPage('register')">📝 Event Registration</button>
+  </nav>
+
+  <!-- Main Body Content -->
+  <main>
+
+    <!-- ========================================== -->
+    <!-- 1. HOME PAGE                               -->
+    <!-- ========================================== -->
+    <div id="home" class="page-section">
+      
+      <!-- Welcome Message -->
+      <div class="welcome-banner">
+        <h2>Welcome to the College Club &amp; Cell Portal!</h2>
+        <p>
+          Find all official information about our college clubs, auditions, workshops, circulars, and executive members.
+          Browse our active cells below or register for upcoming events.
+        </p>
+      </div>
+
+      <!-- Live Notice Ticker -->
+      <div class="ticker" id="ticker-text">
+        📢 Loading latest announcements...
+      </div>
+
+      <!-- Quick Metrics Counters -->
+      <div class="stats-row">
+        <div class="stat-box">
+          <h3 id="count-clubs">6</h3>
+          <p>ACTIVE CLUBS &amp; CELLS</p>
+        </div>
+        <div class="stat-box">
+          <h3 id="count-events">0</h3>
+          <p>EVENTS &amp; AUDITIONS</p>
+        </div>
+        <div class="stat-box">
+          <h3 id="count-notices">0</h3>
+          <p>NOTICES POSTED</p>
+        </div>
+        <div class="stat-box">
+          <h3 id="count-members">0</h3>
+          <p>REGISTERED MEMBERS</p>
+        </div>
+      </div>
+
+      <!-- Our 6 College Clubs -->
+      <div class="card">
+        <h2 style="margin-top:0; color:#1a2e26;">🏛️ Our College Societies &amp; Cells</h2>
+        <p style="color:#64748b; font-size:14px; margin-bottom:20px;">Overview of the 6 official student bodies on campus:</p>
+        <div class="grid" id="home-clubs-grid"></div>
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 2. CLUBS AND CELLS PAGE                    -->
+    <!-- ========================================== -->
+    <div id="clubs" class="page-section" style="display: none;">
+      <div class="card">
+        <h2 style="margin-top:0; color:#1a2e26;">🏛️ Societies &amp; Cells Directory</h2>
+        <p style="color:#64748b; font-size:14px; margin-bottom:20px;">Detailed information about the faculty in-charge, aims, and member count:</p>
+        <div class="grid" id="all-clubs-grid"></div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 3. EVENTS AND AUDITIONS PAGE               -->
+    <!-- ========================================== -->
+    <div id="events" class="page-section" style="display: none;">
+      
+      <!-- Add Event Form -->
+      <div class="form-box">
+        <h4>➕ Add New Event or Audition</h4>
+        <div style="display:flex; flex-wrap:wrap; gap:10px;">
+          <input type="text" id="event-title" placeholder="Event / Audition Title *">
+          <select id="event-club"></select>
+          <select id="event-type">
+            <option value="Event">Regular Event / Competition</option>
+            <option value="Audition">⭐ Audition / Selection Trial</option>
+          </select>
+          <input type="date" id="event-date">
+          <input type="text" id="event-time" placeholder="Timing (e.g. 3:00 PM)">
+          <input type="text" id="event-venue" placeholder="Venue (e.g. Auditorium Hall)">
+          <textarea id="event-desc" placeholder="Brief description of event, rules, or eligibility..."></textarea>
+        </div>
+        <button class="btn" onclick="addEvent()">Add to Schedule</button>
+      </div>
+
+      <!-- Filter and List -->
+      <div class="card">
+        <div class="filter-row">
+          <h3 style="margin:0; color:#1a2e26; flex-grow:1;">📅 Scheduled Events &amp; Auditions</h3>
+          <label style="font-size:13px; font-weight:bold;">Filter Club:</label>
+          <select id="filter-event-club" onchange="renderEvents()"></select>
+        </div>
+        <div class="grid" id="events-grid"></div>
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 4. NOTICE BOARD PAGE                       -->
+    <!-- ========================================== -->
+    <div id="notices" class="page-section" style="display: none;">
+
+      <!-- Add Notice Form -->
+      <div class="form-box">
+        <h4>➕ Broadcast a Notice / Circular</h4>
+        <div style="display:flex; flex-wrap:wrap; gap:10px;">
+          <input type="text" id="notice-title" placeholder="Notice Headline *">
+          <select id="notice-club"></select>
+          <select id="notice-category">
+            <option value="Notice">General Notice</option>
+            <option value="Audition">Audition Call</option>
+            <option value="Urgent">🚨 Urgent Alert</option>
+          </select>
+          <textarea id="notice-body" placeholder="Write announcement details here..."></textarea>
+        </div>
+        <button class="btn" onclick="addNotice()">Post Notice</button>
+      </div>
+
+      <!-- Notice List -->
+      <div class="card">
+        <div class="filter-row">
+          <h3 style="margin:0; color:#1a2e26; flex-grow:1;">📢 Official Notice Board</h3>
+          <label style="font-size:13px; font-weight:bold;">Filter Club:</label>
+          <select id="filter-notice-club" onchange="renderNotices()"></select>
+        </div>
+        <div id="notices-list"></div>
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 5. MEMBERS DIRECTORY PAGE                  -->
+    <!-- ========================================== -->
+    <div id="members" class="page-section" style="display: none;">
+
+      <!-- Add Member Form -->
+      <div class="form-box">
+        <h4>➕ Add New Member</h4>
+        <div style="display:flex; flex-wrap:wrap; gap:10px;">
+          <input type="text" id="member-name" placeholder="Student Full Name *">
+          <input type="email" id="member-email" placeholder="Student Email *">
+          <select id="member-club"></select>
+          <input type="text" id="member-role" placeholder="Role (e.g. Vocalist, Coordinator, Member)">
+          <input type="text" id="member-year" placeholder="Year / Branch (e.g. 2nd Year CSE)">
+        </div>
+        <button class="btn" onclick="addMember()">Save Member</button>
+      </div>
+
+      <!-- Members Table -->
+      <div class="card">
+        <div class="filter-row">
+          <h3 style="margin:0; color:#1a2e26; flex-grow:1;">👥 Registered Members Roster</h3>
+          <input type="text" id="search-member" placeholder="Search by name or email..." onkeyup="renderMembers()">
+          <select id="filter-member-club" onchange="renderMembers()"></select>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Club</th>
+              <th>Role</th>
+              <th>Year</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="members-table-body"></tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 6. REGISTRATION PAGE                       -->
+    <!-- ========================================== -->
+    <div id="register" class="page-section" style="display: none;">
+
+      <!-- Event Registration Form -->
+      <div class="form-box">
+        <h4>📝 Register for an Event or Audition</h4>
+        <div style="display:flex; flex-wrap:wrap; gap:10px;">
+          <input type="text" id="reg-name" placeholder="Student Name *">
+          <input type="email" id="reg-email" placeholder="Email Address *">
+          <input type="text" id="reg-event-title" placeholder="Event / Audition Name *">
+          <select id="reg-club"></select>
+        </div>
+        <button class="btn" onclick="addRegistration()">Submit Registration</button>
+      </div>
+
+      <!-- Registrations Table -->
+      <div class="card">
+        <h3 style="margin:0 0 10px 0; color:#1a2e26;">📋 Registered Students List</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Email</th>
+              <th>Registered Activity</th>
+              <th>Club</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="regs-table-body"></tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Simple Footer -->
+  <footer>
+    <p><strong>ClubHub</strong> • College Web Development Project</p>
+    <p style="font-size:12px; margin-top:4px;">Built using basic HTML5, CSS3, and JavaScript LocalStorage</p>
+    <p style="margin-top:10px;"><button class="btn-red" onclick="resetData()" style="padding:4px 8px; font-size:11px;">🔄 Reset Data to Defaults</button></p>
+  </footer>
+
+  <!-- Script File -->
+  <script src="./script.js"></script>
+</body>
+</html>
